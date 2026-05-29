@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Clientes\Entities\" />
+    <Folder Include="Clientes\Events\" />
+    <Folder Include="Clientes\ValueObjects\" />
+    <Folder Include="Pedidos\Events\" />
+  </ItemGroup>
+
+</Project>
