@@ -18,6 +18,12 @@ namespace Vendas.Domain.Common.Validations
                 throw new DomainException($"{paramName} não pode ser nulo.");
         }
 
+        public static void AgainstNull<T>(T value, string paramName, string message)
+        {
+            if (value == null)
+                throw new DomainException(message);
+        }
+
         public static void AgainstNullOrWhiteSpace(string value, string paramName, string? message = null)
         {
             if (string.IsNullOrWhiteSpace(value))
