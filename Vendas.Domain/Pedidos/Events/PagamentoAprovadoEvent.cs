@@ -4,7 +4,7 @@ namespace Vendas.Domain.Pedidos.Events
 {
     public record PagamentoAprovadoEvent(
         Guid PagamentoId,
-        Guid pedidoId,
+        Guid PedidoId,
         ValorMonetario Valor,
         DateTime DataPagamento,
         string? CodigoTransacao) : DomainEventBase;

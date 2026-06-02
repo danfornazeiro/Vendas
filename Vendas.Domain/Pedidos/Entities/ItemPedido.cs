@@ -1,6 +1,7 @@
 ﻿using Vendas.Domain.Common.Base;
 using Vendas.Domain.Common.Exceptions;
 using Vendas.Domain.Common.Validations;
+using Vendas.Domain.Pedidos.ValueObjects;
 
 namespace Vendas.Domain.Pedidos.Entities
 {
@@ -8,7 +9,7 @@ namespace Vendas.Domain.Pedidos.Entities
     {
         public Guid ProdutoId { get; private set; }
         public string NomeProduto { get; private set; } = string.Empty;
-        public decimal PrecoUnitario { get; private set; }
+        public ValorMonetario PrecoUnitario { get; private set; }
         public int Quantidade { get; private set; }
         public decimal ValorTotal { get; private set; }
         public decimal DescontoAplicado { get; private set; }
@@ -16,12 +17,11 @@ namespace Vendas.Domain.Pedidos.Entities
         internal ItemPedido(
             Guid produtoId,
             string nomeProduto,
-            decimal precoUnitario,
+            ValorMonetario precoUnitario,
             int quantidade) 
         {
             Guard.AgainsEmptyGuid(produtoId, nameof(produtoId), "ProdutoId inválido.");
             Guard.AgainstNullOrWhiteSpace(nomeProduto, nameof(nomeProduto), "O nome do produto é obrigatório.");
-            Guard.Against<DomainException>(precoUnitario <= 0, "O preço unitário deve ser maior que zero.");
             Guard.Against<DomainException>(quantidade <= 0, "A quantidade deve ser maior que zero.");
 
             ProdutoId = produtoId;
@@ -36,7 +36,7 @@ namespace Vendas.Domain.Pedidos.Entities
         public void AplicarDesconto(decimal desconto)
         {
             Guard.Against<DomainException>(desconto < 0, "Desconto não pode ser negativo.");
-            Guard.Against<DomainException>(desconto > PrecoUnitario * Quantidade, "Desconto não pode exceder o valor total do item.");
+            Guard.Against<DomainException>(desconto > PrecoUnitario.Valor * Quantidade, "Desconto não pode exceder o valor total do item.");
 
             DescontoAplicado = desconto;
             SetDataAtualizacao();
@@ -68,14 +68,14 @@ namespace Vendas.Domain.Pedidos.Entities
         {
             Guard.Against<DomainException>(novoPreco <= 0, "O preço unitário deve ser maior que zero.");
 
-            PrecoUnitario = novoPreco;
+            PrecoUnitario = new ValorMonetario(novoPreco);
             SetDataAtualizacao();
             CalcularValorTotal();
         }
 
         private void CalcularValorTotal()
         {
-            ValorTotal = (PrecoUnitario * Quantidade) - DescontoAplicado;
+            ValorTotal = (PrecoUnitario.Valor * Quantidade) - DescontoAplicado;
         }
     }
 }

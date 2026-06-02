@@ -9,7 +9,9 @@ namespace Vendas.Domain.Pedidos.ValueObjects
 
         public ValorMonetario(decimal valor)
         {
-            Guard.Against<DomainException>(valor <= 0, "O Valor deve ser maior que zero.");
+            Guard.Against<DomainException>(valor <= 0, "O Valor do pagamento deve ser maior que zero.");
+
+            Valor = valor;
         }
     }
 }

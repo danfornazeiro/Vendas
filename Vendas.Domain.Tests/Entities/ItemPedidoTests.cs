@@ -5,6 +5,7 @@ using System.Text;
 using Vendas.Domain.Common.Base;
 using Vendas.Domain.Common.Exceptions;
 using Vendas.Domain.Pedidos.Entities;
+using Vendas.Domain.Pedidos.ValueObjects;
 
 namespace Vendas.Domain.Tests.Entities
 {
@@ -13,7 +14,7 @@ namespace Vendas.Domain.Tests.Entities
         //metodo auxiliar
         private static ItemPedido CriarItemValido(decimal preco = 100m, int quantidade = 2)
         {
-            return new ItemPedido(Guid.NewGuid(), "Produto TEste", preco, quantidade);
+            return new ItemPedido(Guid.NewGuid(), "Produto TEste", new ValorMonetario(preco), quantidade);
         }
 
         [Fact(DisplayName = "Deve criar item pedido com sucesso quando dados forem válidos")]
@@ -24,11 +25,11 @@ namespace Vendas.Domain.Tests.Entities
             var precoUnitario = 250m;
             var quantidade = 2;
 
-            var item = new ItemPedido(produtoId, nomeProduto, precoUnitario, quantidade);
+            var item = new ItemPedido(produtoId, nomeProduto, new ValorMonetario(precoUnitario), quantidade);
 
             item.ProdutoId.Should().Be(produtoId);
             item.NomeProduto.Should().Be(nomeProduto);
-            item.PrecoUnitario.Should().Be(precoUnitario);
+            item.PrecoUnitario.Valor.Should().Be(precoUnitario);
             item.Quantidade.Should().Be(quantidade);
             item.DescontoAplicado.Should().Be(0);
             item.ValorTotal.Should().Be(500m);
@@ -37,7 +38,7 @@ namespace Vendas.Domain.Tests.Entities
         [Theory(DisplayName = "Deve lançar DomainException quando parâmetros forem inválidos")]
         [InlineData("", "Produto A", 10, 1, "ProdutoId inválido.")]
         [InlineData("guid", "", 10, 1, "O nome do produto é obrigatório.")]
-        [InlineData("guid", "Produto A", 0, 1, "O preço unitário deve ser maior que zero.")]
+        [InlineData("guid", "Produto A", 0, 1, "O Valor do pagamento deve ser maior que zero.")]
         [InlineData("guid", "Produto A", 10, 0, "A quantidade deve ser maior que zero.")]
         public void Criar_DeveLancarExcecao_QuandoParametros_Invalidos(string tipo, string nomeProduto, decimal preco, int quantidade, string mensagem)
         {
@@ -45,7 +46,7 @@ namespace Vendas.Domain.Tests.Entities
             var produtoId = tipo == "guid" ? Guid.NewGuid() : Guid.Empty;
 
             //Act
-            Action act = () => new ItemPedido(produtoId, nomeProduto, preco, quantidade);
+            Action act = () => new ItemPedido(produtoId, nomeProduto, new ValorMonetario(preco), quantidade);
 
             act.Should().Throw<DomainException>().WithMessage(mensagem);
         }
@@ -132,7 +133,7 @@ namespace Vendas.Domain.Tests.Entities
             item.AtualizarPrecoUnitario(150m);
 
             //Assert
-            item.PrecoUnitario.Should().Be(150m);
+            item.PrecoUnitario.Valor.Should().Be(150m);
             item.ValorTotal.Should().Be(450m);
             item.DataAtualizacao.Should().NotBeNull();
         }

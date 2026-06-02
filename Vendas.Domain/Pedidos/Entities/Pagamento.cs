@@ -16,9 +16,10 @@ namespace Vendas.Domain.Pedidos.Entities
         public DateTime? DataPagamento { get; private set; }
         public string? CodigoTransacao { get; private set; }
 
-        public Pagamento(Guid pedidoId, MetodoPagamento metodoPagamento, StatusPagamento statusPagamento, ValorMonetario valor)
+        public Pagamento(Guid pedidoId, MetodoPagamento metodoPagamento, ValorMonetario valor)
         {
             Guard.AgainsEmptyGuid(pedidoId, nameof(pedidoId), "Pedido inválido.");
+            //Guard.Against<DomainException>(valor.Valor <= 0, "O valor do pagamento deve ser maior que zero.");
             Guard.Against<DomainException>(!Enum.IsDefined(typeof(MetodoPagamento), metodoPagamento), "Metodo de pagamento inválido");
 
             PedidoId = pedidoId;
@@ -39,21 +40,21 @@ namespace Vendas.Domain.Pedidos.Entities
             DefinirCodigoTransacao(codigo);
         }
 
-        private void DefinirCodigoTransacao(string codigo)
+        public void DefinirCodigoTransacao(string codigo)
         {
-            Guard.AgainstNullOrWhiteSpace(codigo, nameof(codigo), "Código da transacao inválido");
-            Guard.Against<DomainException>(CodigoTransacao is null, "O código da transação já foi definido.");
+            Guard.AgainstNullOrWhiteSpace(codigo, nameof(codigo), "Código da transação inválido.");
+            Guard.Against<DomainException>(CodigoTransacao is not null, "O código da transação já foi definido.");
             Guard.Against<DomainException>(StatusPagamento != StatusPagamento.Pendente, "Não é permitido registrar código após confirmação ou recusa do pagamento.");
 
             CodigoTransacao = codigo;
             SetDataAtualizacao();
         }
 
-        public void ConfirmarPagamento(string codigo)
+        public void ConfirmarPagamento()
         {
             Guard.Against<DomainException>(StatusPagamento != StatusPagamento.Pendente, "Apenas pagamentos pendentes podem ser confirmados.");
 
-            Guard.AgainstNullOrWhiteSpace(CodigoTransacao ?? string.Empty, nameof(CodigoTransacao), "O pagamento nãp pode ser confirmado sem o código de transação.");
+            Guard.AgainstNullOrWhiteSpace(CodigoTransacao ?? string.Empty, nameof(CodigoTransacao), "O pagamento não pode ser confirmado sem o código de transação.");
 
             StatusPagamento = StatusPagamento.Aprovado; 
             DataPagamento = DateTime.UtcNow;
@@ -67,13 +68,11 @@ namespace Vendas.Domain.Pedidos.Entities
                 CodigoTransacao));
         }
 
-        public void RecusarPagamento(string codigo)
+        public void RecusarPagamento()
         {
             Guard.Against<DomainException>(StatusPagamento != StatusPagamento.Pendente, "Apenas pagamentos pendentes podem ser recusados.");
 
-            Guard.AgainstNullOrWhiteSpace(CodigoTransacao ?? string.Empty, nameof(CodigoTransacao), "O pagamento nãp pode ser confirmado sem o código de transação.");
-
-            StatusPagamento = StatusPagamento.Aprovado;
+            StatusPagamento = StatusPagamento.Recusado;
             DataPagamento = DateTime.UtcNow;
             SetDataAtualizacao();
 
