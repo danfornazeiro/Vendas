@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Vendas.Domain.Pedidos.ValueObjects
+namespace Vendas.Domain.Pedidos.ValueObjects;
+
+public sealed record Quantidade
 {
-    public sealed record Quantidade
-    {
-    }
 }
