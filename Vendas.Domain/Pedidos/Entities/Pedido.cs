@@ -26,7 +26,7 @@ namespace Vendas.Domain.Pedidos.Entities
         private Pedido(Guid clientId,EnderecoEntrega enderecoEntrega)
         {
             Guard.AgainsEmptyGuid(clientId, nameof(clientId), "ClienteId inválido");
-            Guard.AgainstNull(enderecoEntrega, nameof(enderecoEntrega), "O endereço de entrega é obrigatório");
+            Guard.AgainstNull(enderecoEntrega, nameof(enderecoEntrega), "O endereço de entrega é obrigatório");+,0
 
             ClienteId = clientId;
             EnderecoEntrega = enderecoEntrega;

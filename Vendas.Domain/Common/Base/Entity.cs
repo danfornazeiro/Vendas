@@ -50,6 +50,7 @@ namespace Vendas.Domain.Common.Base
         }
 
         private readonly List<IDomainEvent> _domainEvents = new();
+
         public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
 
         protected void AddDomainEvent(IDomainEvent domainEvent)
