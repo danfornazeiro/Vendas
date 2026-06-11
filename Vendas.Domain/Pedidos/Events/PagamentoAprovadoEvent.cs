@@ -1,4 +1,5 @@
-﻿using Vendas.Domain.Pedidos.ValueObjects;
+﻿using Vendas.Domain.Common.Base;
+using Vendas.Domain.Pedidos.ValueObjects;
 
 namespace Vendas.Domain.Pedidos.Events
 {

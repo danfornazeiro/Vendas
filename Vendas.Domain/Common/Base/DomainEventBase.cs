@@ -1,4 +1,6 @@
-﻿namespace Vendas.Domain.Pedidos.Events;
+﻿using Vendas.Domain.Common.Interfaces;
+
+namespace Vendas.Domain.Common.Base;
 
 public abstract record class DomainEventBase : IDomainEvent
 {

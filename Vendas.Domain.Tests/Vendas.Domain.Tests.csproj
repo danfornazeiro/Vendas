@@ -23,4 +23,9 @@
     <ProjectReference Include="..\Vendas.Domain\Vendas.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Clientes\Entities\" />
+    <Folder Include="Clientes\ValueObjects\" />
+  </ItemGroup>
+
 </Project>

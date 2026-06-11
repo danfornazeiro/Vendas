@@ -1,4 +1,4 @@
-﻿namespace Vendas.Domain.Pedidos.Events
+﻿namespace Vendas.Domain.Common.Interfaces
 {
     public interface IDomainEvent
     {

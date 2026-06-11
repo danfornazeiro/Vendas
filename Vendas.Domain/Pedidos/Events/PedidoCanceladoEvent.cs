@@ -1,5 +1,6 @@
-﻿using Vendas.Domain.Common.Enums;
-using Vendas.Domain.ValueObjects;
+﻿using Vendas.Domain.Common.Base;
+using Vendas.Domain.Pedidos.Enums;
+using Vendas.Domain.Pedidos.ValueObjects;
 
 namespace Vendas.Domain.Pedidos.Events;
 

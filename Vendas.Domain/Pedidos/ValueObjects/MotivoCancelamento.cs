@@ -1,7 +1,7 @@
 ﻿using Vendas.Domain.Common.Base;
 using Vendas.Domain.Common.Exceptions;
 
-namespace Vendas.Domain.ValueObjects
+namespace Vendas.Domain.Pedidos.ValueObjects
 {
     public sealed class MotivoCancelamento : ValueObject
     {

@@ -1,7 +1,7 @@
 ﻿using Vendas.Domain.Common.Base;
-using Vendas.Domain.Common.Enums;
 using Vendas.Domain.Common.Exceptions;
 using Vendas.Domain.Common.Validations;
+using Vendas.Domain.Pedidos.Enums;
 using Vendas.Domain.Pedidos.Events;
 using Vendas.Domain.Pedidos.ValueObjects;
 

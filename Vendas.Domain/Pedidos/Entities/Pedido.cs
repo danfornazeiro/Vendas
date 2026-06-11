@@ -1,10 +1,9 @@
 ﻿using Vendas.Domain.Common.Base;
-using Vendas.Domain.Common.Enums;
 using Vendas.Domain.Common.Exceptions;
 using Vendas.Domain.Common.Validations;
+using Vendas.Domain.Pedidos.Enums;
 using Vendas.Domain.Pedidos.Events;
 using Vendas.Domain.Pedidos.ValueObjects;
-using Vendas.Domain.ValueObjects;
 
 namespace Vendas.Domain.Pedidos.Entities
 {
@@ -26,7 +25,7 @@ namespace Vendas.Domain.Pedidos.Entities
         private Pedido(Guid clientId,EnderecoEntrega enderecoEntrega)
         {
             Guard.AgainsEmptyGuid(clientId, nameof(clientId), "ClienteId inválido");
-            Guard.AgainstNull(enderecoEntrega, nameof(enderecoEntrega), "O endereço de entrega é obrigatório");+,0
+            Guard.AgainstNull(enderecoEntrega, nameof(enderecoEntrega), "O endereço de entrega é obrigatório");
 
             ClienteId = clientId;
             EnderecoEntrega = enderecoEntrega;
