@@ -3,6 +3,7 @@
     <Project Path="Vendas.Domain/Vendas.Domain.csproj" />
   </Folder>
   <Folder Name="/tests/">
+    <File Path="Vendas.Domain/AssemblyInfo.cs" />
     <Project Path="Vendas.Domain.Tests/Vendas.Domain.Tests.csproj" />
   </Folder>
 </Solution>
